@@ -1,7 +1,4 @@
-from django.views.generic import DetailView
-from rest_framework import permissions, status, viewsets, request
-from rest_framework.generics import ListAPIView
-from rest_framework.views import APIView
+from rest_framework.generics import ListAPIView, RetrieveAPIView
 
 from .serializers import ProductCategorySerializer, ProductSerializer
 from .models import ProductCategory, Product
@@ -25,9 +22,9 @@ class ProductListAPIView(ListAPIView):
     queryset = Product.objects.all()
 
 
-class ProductDetailView(APIView):
+class ProductDetailView(RetrieveAPIView):
     serializer_class = ProductSerializer
 
     def get_queryset(self):
-        product_id = self.kwargs['product_id']
-        return Product.objects.filter(product_id=product_id)
+        product_id = self.kwargs['pk']
+        return Product.objects.filter(id=product_id)
